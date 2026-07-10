@@ -1,0 +1,10 @@
+﻿services:
+  - type: web
+    name: aegis-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn aegis_backend.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
