@@ -1,4 +1,8 @@
-# Aegis Backend — Django + MySQL
+﻿# 🛡️ Aegis Backend
+
+🚀 **Live Demo:** [https://aegis-backend.onrender.com](https://aegis-backend.onrender.com)
+
+# Aegis Backend â€” Django + MySQL
 
 REST API for the Aegis tourist-safety app (SOS alerts, emergency contacts,
 live risk zones, check-ins, geofences, and the "Ask Aegis" chatbot). Built
@@ -10,11 +14,11 @@ to sit directly behind the frontend prototype already delivered
 - Python 3.11+
 - `pip install -r requirements.txt`
 
-By default this project runs on **zero-config SQLite** — no database server
+By default this project runs on **zero-config SQLite** â€” no database server
 to install, no credentials to set up. Switch to MySQL any time by flipping
 one flag (see step 5).
 
-## 2. Fastest path — run it now
+## 2. Fastest path â€” run it now
 
 ```bash
 python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
@@ -26,11 +30,11 @@ python manage.py seed_demo_data      # creates demo_traveler/demo12345 + contact
 python manage.py runserver
 ```
 
-Open **http://127.0.0.1:8000/** — the app UI *and* the API are served from
+Open **http://127.0.0.1:8000/** â€” the app UI *and* the API are served from
 this single command. It auto-logs in as `demo_traveler` on load, so there's
 nothing else to configure to try every screen (Home, Map, SOS, Chat, Profile).
 
-Admin panel: `http://127.0.0.1:8000/admin/` — create a superuser with
+Admin panel: `http://127.0.0.1:8000/admin/` â€” create a superuser with
 `python manage.py createsuperuser` to view/edit raw data there.
 
 ## 3. Switching to MySQL
@@ -62,7 +66,7 @@ a real `DJANGO_SECRET_KEY`, your real `DJANGO_ALLOWED_HOSTS`, and switch to MySQ
 
 ## 5. Frontend notes
 
-`templates/index.html` is the entire frontend — a phone-shaped single-page
+`templates/index.html` is the entire frontend â€” a phone-shaped single-page
 app (vanilla JS, no build step) that calls the API at relative `/api/...`
 paths, so there's no CORS configuration needed in production. It includes:
 - a sliding pill indicator and directional slide transitions between tabs
@@ -102,7 +106,7 @@ Send the access token on every subsequent request:
 | `/api/zones/` | GET | List all safety zones |
 | `/api/zones/nearby/?lat=&lng=&radius_km=` | GET | Zones within radius, nearest first |
 | `/api/incidents/` | GET/POST | Community incident reports |
-| `/api/sos/` | POST | **Trigger an SOS alert** — fans out to all contacts |
+| `/api/sos/` | POST | **Trigger an SOS alert** â€” fans out to all contacts |
 | `/api/sos/active/` | GET | The caller's current active alert, if any |
 | `/api/sos/{id}/resolve/` | POST | Mark alert resolved, or `{"cancelled": true}` |
 | `/api/checkins/` | GET/POST | Manual "I'm here" check-ins |
@@ -115,7 +119,7 @@ curl -X POST http://127.0.0.1:8000/api/sos/ \
   -H "Authorization: Bearer <token>" -H "Content-Type: application/json" \
   -d '{"latitude": 13.0827, "longitude": 80.2707, "address": "Old Town Market", "trigger_method": "button"}'
 ```
-Response includes a `notifications` array — one row per emergency contact,
+Response includes a `notifications` array â€” one row per emergency contact,
 each with delivery status, mirroring the checklist animation in the
 frontend prototype.
 
@@ -130,10 +134,11 @@ Returns both the stored user message and the generated bot reply.
 ## 8. Notes on production-readiness
 
 - SOS notification delivery (`SOSAlertViewSet.create`) is a synchronous stub.
-  Wire it to Celery + an SMS/push provider (Twilio, FCM) before going live —
+  Wire it to Celery + an SMS/push provider (Twilio, FCM) before going live â€”
   emergency dispatch must never block on a slow HTTP request.
 - `core/chatbot.py` is a keyword-matching placeholder so the API contract is
   stable; swap in a real NLP/LLM service behind the same `get_bot_reply()`
   function signature without touching views or the frontend.
 - Safety-zone risk scores are static demo data here; in production these
   come from the ML risk-scoring pipeline described in the project brief.
+
